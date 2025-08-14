@@ -6,7 +6,7 @@
 <title>Capital Lanka Loan</title>
 <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-    body {background:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px;}
+    body {background:#fff;min-height:100vh;padding:16px;}
 
     /* Popup */
     .popup {
@@ -80,21 +80,17 @@
     <div class="title">Capital Lanka</div>
 
     <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)" inputmode="numeric" min="40000" max="600000" step="1000">
-    <!-- First button: only calculates & shows the plan -->
-    <button class="btn" id="calcBtn" onclick="applyLoan()">
-        Apply
-    </button>
+
+    <!-- First Apply Button -->
+    <button class="btn" id="calcBtn" onclick="applyLoan()">Apply</button>
 
     <div id="resultPage" style="display:none;">
         <div class="result" id="loanDetails"></div>
 
         <div class="actions">
-            <button class="back-btn" onclick="goBack()" id="backBtn">Back</button>
-
-            <!-- Final Apply: goes to your link -->
-            <a id="finalApply" class="btn apply-link" href="#" target="_blank" rel="noopener" style="display:none;">
-                Apply Now
-            </a>
+            <button class="back-btn" id="backBtn" onclick="goBack()">Back</button>
+            <!-- Final Apply Link -->
+            <a id="finalApply" class="btn apply-link" href="#" target="_blank" rel="noopener" style="display:none;">Apply Now</a>
         </div>
         <div class="note" id="noteTxt"></div>
     </div>
@@ -103,28 +99,30 @@
 <script>
 let selectedLang = "en";
 
-/* 🔗 Replace this with YOUR real link */
+/* 🔗 Replace this with your real link */
 const APPLY_URL = "https://example.com/apply"; // <-- CHANGE THIS
 
 function selectLang(lang) {
     selectedLang = lang;
-    // Update placeholders/labels based on language
+
+    // Update text based on language
     document.getElementById("amount").placeholder = (lang === 'si')
         ? "මුදල ඇතුළත් කරන්න (40,000 - 600,000)"
         : "Enter amount (40,000 - 600,000)";
-
     document.getElementById("calcBtn").textContent = (lang === 'si') ? "අයදුම් කරන්න" : "Apply";
     document.getElementById("backBtn").textContent = (lang === 'si') ? "ආපසු" : "Back";
     document.getElementById("finalApply").textContent = (lang === 'si') ? "දැන් අයදුම් කරන්න" : "Apply Now";
 
+    // Hide popup & show loan form
     document.getElementById("langPopup").style.display = "none";
     document.getElementById("loanPage").style.display = "block";
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyLoan() {
-    const amountEl = document.getElementById("amount");
-    const amount = parseFloat(amountEl.value);
-
+    const amount = parseFloat(document.getElementById("amount").value);
     if (isNaN(amount) || amount < 40000 || amount > 600000) {
         alert(selectedLang === 'si'
             ? "කරුණාකර 40,000 සිට 600,000 අතර මුදලක් ඇතුලත් කරන්න"
@@ -133,7 +131,7 @@ function applyLoan() {
     }
 
     let interestRate = 0, months = 0;
-    if (amount <= 150000) { interestRate = 9;  months = 6;  }
+    if (amount <= 150000) { interestRate = 9; months = 6; }
     else if (amount <= 300000) { interestRate = 13; months = 12; }
     else if (amount <= 500000) { interestRate = 14; months = 24; }
     else { interestRate = 15; months = 30; }
@@ -142,18 +140,16 @@ function applyLoan() {
     const totalPayment = amount + totalInterest;
     const monthlyInstallment = totalPayment / months;
 
-    // Details UI
-    const details = `
+    // Show loan details
+    document.getElementById("loanDetails").innerHTML = `
         <div><strong>${selectedLang === 'si' ? "මුදල" : "Amount"}:</strong> Rs ${amount.toLocaleString()}</div>
         <div><strong>${selectedLang === 'si' ? "පොලී ප්‍රතිශතය" : "Interest Rate"}:</strong> ${interestRate}%</div>
         <div><strong>${selectedLang === 'si' ? "මාස" : "Months"}:</strong> ${months}</div>
         <div><strong>${selectedLang === 'si' ? "ගෙවිය යුතු මුළු මුදල" : "Total Payment"}:</strong> Rs ${totalPayment.toLocaleString(undefined, {minimumFractionDigits:2})}</div>
         <div><strong>${selectedLang === 'si' ? "මාසික ගෙවීම" : "Monthly Installment"}:</strong> Rs ${monthlyInstallment.toLocaleString(undefined, {minimumFractionDigits:2})}</div>
     `;
-    document.getElementById("loanDetails").innerHTML = details;
-    document.getElementById("resultPage").style.display = "block";
 
-    // Build redirect URL with useful query params
+    // Build redirect link
     const params = new URLSearchParams({
         amount: Math.round(amount),
         months: months,
@@ -161,21 +157,17 @@ function applyLoan() {
         monthly: monthlyInstallment.toFixed(2),
         lang: selectedLang
     });
+    document.getElementById("finalApply").href = ${APPLY_URL}?${params.toString()};
+    document.getElementById("finalApply").style.display = "inline-block";
 
-    const finalApplyEl = document.getElementById("finalApply");
-    finalApplyEl.href = ${APPLY_URL}?${params.toString()};
-    finalApplyEl.style.display = "inline-block";
-
-    // Hide the first Apply button to ensure ONLY the final one is clickable afterwards
+    // Show results & hide first apply button
+    document.getElementById("resultPage").style.display = "block";
     document.getElementById("calcBtn").style.display = "none";
 
-    // Small note text
+    // Show note text
     document.getElementById("noteTxt").textContent = (selectedLang === 'si')
-        ? "වැට්ටු ලැබුණු විස්තර සහිතව ඔබ 'දැන් අයදුම් කරන්න' ක්ලික් කරන විට link එකට යනු ඇත."
-        : "Click 'Apply Now' to proceed to the link with your selected plan details.";
-
-    // Scroll to results on mobile
-    document.getElementById("resultPage").scrollIntoView({ behavior: "smooth", block: "start" });
+        ? "ඔබ 'දැන් අයදුම් කරන්න' ක්ලික් කරන විට, ඔබගේ තෝරාගත් loan විස්තර සමග link එකට යනු ඇත."
+        : "Click 'Apply Now' to proceed to the link with your selected loan details.";
 }
 
 function goBack() {
