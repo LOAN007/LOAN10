@@ -6,7 +6,7 @@
 <title>Capital Lanka Loan</title>
 <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-    body {background:#fff;min-height:100vh;padding:16px;}
+    body {background:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
 
     /* Popup */
     .popup {
@@ -14,7 +14,7 @@
         background: rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:10;
     }
     .popup-content {
-        background:#fff;padding:20px;border-radius:10px;text-align:center;width:90%;max-width:350px;
+        background:#fff;padding:20px;border-radius:10px;text-align:center;width:80%;max-width:350px;
     }
     .popup-content h2 {margin-bottom:10px;}
     .popup-content p {margin-bottom:20px;color:#555;}
@@ -31,36 +31,37 @@
         animation: fadeIn 2s ease-in-out infinite alternate;
         margin-bottom:20px;text-align:center;
     }
-    @keyframes fadeIn { from {opacity:0.3;} to {opacity:1;} }
+    @keyframes fadeIn {
+        from {opacity:0.3;}
+        to {opacity:1;}
+    }
 
     /* Loan form */
-    .container {text-align:center;width:100%;max-width:430px;padding:20px;margin:auto;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.06);}
+    .container {text-align:center;width:100%;max-width:400px;padding:20px;}
     input[type=number] {
-        width:100%;padding:12px;font-size:18px;margin-bottom:16px;
+        width:100%;padding:12px;font-size:18px;margin-bottom:20px;
         border:2px solid #ccc;border-radius:5px;transition:0.3s;
     }
     input[type=number]:focus {
-        border-color:#007bff;box-shadow:0 0 10px rgba(0,123,255,0.25);
+        border-color:#007bff;box-shadow:0 0 10px rgba(0,123,255,0.5);
         outline:none;
     }
     .btn {
         padding:12px;width:100%;border:none;border-radius:5px;
         font-size:18px;cursor:pointer;color:#fff;background:#28a745;
         animation: blink 1.5s infinite;
-        text-decoration:none;display:inline-block;text-align:center;
     }
-    @keyframes blink { 0%,100% {background-color:#28a745;} 50% {background-color:#218838;} }
+    @keyframes blink {
+        0%,100% {background-color:#28a745;}
+        50% {background-color:#218838;}
+    }
 
     /* Result box */
-    .result {text-align:left;margin-top:16px;font-size:16px;background:#f9fbff;border:1px solid #e6eefc;border-radius:8px;padding:14px;line-height:1.6;}
-    .result strong {display:inline-block;min-width:160px;}
-    .actions {margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+    .result {text-align:center;margin-top:20px;font-size:18px;}
     .back-btn {
-        padding:10px 16px;background:#007bff;color:#fff;
-        border:none;border-radius:5px;font-size:16px;cursor:pointer;flex:1;
+        margin-top:20px;padding:10px 20px;background:#007bff;color:#fff;
+        border:none;border-radius:5px;font-size:16px;cursor:pointer;
     }
-    .apply-link {flex:2;}
-    .note {font-size:12px;color:#666;margin-top:8px;text-align:left;}
 </style>
 </head>
 <body>
@@ -78,104 +79,69 @@
 <!-- Loan Form -->
 <div class="container" id="loanPage" style="display:none;">
     <div class="title">Capital Lanka</div>
-
-    <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)" inputmode="numeric" min="40000" max="600000" step="1000">
-
-    <!-- First Apply Button -->
-    <button class="btn" id="calcBtn" onclick="applyLoan()">Apply</button>
+    <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)">
+    <button class="btn" onclick="applyLoan()">Apply</button>
 
     <div id="resultPage" style="display:none;">
         <div class="result" id="loanDetails"></div>
-
-        <div class="actions">
-            <button class="back-btn" id="backBtn" onclick="goBack()">Back</button>
-            <!-- Final Apply Link -->
-            <a id="finalApply" class="btn apply-link" href="#" target="_blank" rel="noopener" style="display:none;">Apply Now</a>
-        </div>
-        <div class="note" id="noteTxt"></div>
+        <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 </div>
 
 <script>
 let selectedLang = "en";
-
-/* 🔗 Replace this with your real link */
-const APPLY_URL = "https://example.com/apply"; // <-- CHANGE THIS
+const APPLY_URL = "https://loan007.github.io/LOAN/"; // Redirect link
 
 function selectLang(lang) {
     selectedLang = lang;
-
-    // Update text based on language
-    document.getElementById("amount").placeholder = (lang === 'si')
-        ? "මුදල ඇතුළත් කරන්න (40,000 - 600,000)"
-        : "Enter amount (40,000 - 600,000)";
-    document.getElementById("calcBtn").textContent = (lang === 'si') ? "අයදුම් කරන්න" : "Apply";
-    document.getElementById("backBtn").textContent = (lang === 'si') ? "ආපසු" : "Back";
-    document.getElementById("finalApply").textContent = (lang === 'si') ? "දැන් අයදුම් කරන්න" : "Apply Now";
-
-    // Hide popup & show loan form
     document.getElementById("langPopup").style.display = "none";
     document.getElementById("loanPage").style.display = "block";
-
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyLoan() {
     const amount = parseFloat(document.getElementById("amount").value);
-    if (isNaN(amount) || amount < 40000 || amount > 600000) {
-        alert(selectedLang === 'si'
-            ? "කරුණාකර 40,000 සිට 600,000 අතර මුදලක් ඇතුලත් කරන්න"
-            : "Please enter an amount between 40,000 and 600,000");
+    if(isNaN(amount) || amount < 40000 || amount > 600000) {
+        alert(selectedLang === 'si' ? "කරුණාකර 40,000 සිට 600,000 අතර මුදලක් ඇතුලත් කරන්න" : 
+                                     "Please enter an amount between 40,000 and 600,000");
         return;
     }
 
     let interestRate = 0, months = 0;
-    if (amount <= 150000) { interestRate = 9; months = 6; }
-    else if (amount <= 300000) { interestRate = 13; months = 12; }
-    else if (amount <= 500000) { interestRate = 14; months = 24; }
-    else { interestRate = 15; months = 30; }
+    if(amount <= 150000) {interestRate = 9; months = 6;}
+    else if(amount <= 300000) {interestRate = 13; months = 12;}
+    else if(amount <= 500000) {interestRate = 14; months = 24;}
+    else {interestRate = 15; months = 30;}
 
     const totalInterest = (amount * interestRate / 100);
     const totalPayment = amount + totalInterest;
     const monthlyInstallment = totalPayment / months;
 
-    // Show loan details
     document.getElementById("loanDetails").innerHTML = `
-        <div><strong>${selectedLang === 'si' ? "මුදල" : "Amount"}:</strong> Rs ${amount.toLocaleString()}</div>
-        <div><strong>${selectedLang === 'si' ? "පොලී ප්‍රතිශතය" : "Interest Rate"}:</strong> ${interestRate}%</div>
-        <div><strong>${selectedLang === 'si' ? "මාස" : "Months"}:</strong> ${months}</div>
-        <div><strong>${selectedLang === 'si' ? "ගෙවිය යුතු මුළු මුදල" : "Total Payment"}:</strong> Rs ${totalPayment.toLocaleString(undefined, {minimumFractionDigits:2})}</div>
-        <div><strong>${selectedLang === 'si' ? "මාසික ගෙවීම" : "Monthly Installment"}:</strong> Rs ${monthlyInstallment.toLocaleString(undefined, {minimumFractionDigits:2})}</div>
+        ${selectedLang === 'si' ? "මුදල" : "Amount"}: Rs ${amount.toLocaleString()}<br>
+        ${selectedLang === 'si' ? "පොලී ප්‍රතිශතය" : "Interest Rate"}: ${interestRate}%<br>
+        ${selectedLang === 'si' ? "මාස" : "Months"}: ${months}<br>
+        ${selectedLang === 'si' ? "ගෙවිය යුතු මුළු මුදල" : "Total Payment"}: Rs ${totalPayment.toLocaleString(undefined, {minimumFractionDigits:2})}<br>
+        ${selectedLang === 'si' ? "මාසික ගෙවීම" : "Monthly Installment"}: Rs ${monthlyInstallment.toLocaleString(undefined, {minimumFractionDigits:2})}
     `;
-
-    // Build redirect link
-    const params = new URLSearchParams({
-        amount: Math.round(amount),
-        months: months,
-        interestRate: interestRate,
-        monthly: monthlyInstallment.toFixed(2),
-        lang: selectedLang
-    });
-    document.getElementById("finalApply").href = ${APPLY_URL}?${params.toString()};
-    document.getElementById("finalApply").style.display = "inline-block";
-
-    // Show results & hide first apply button
     document.getElementById("resultPage").style.display = "block";
-    document.getElementById("calcBtn").style.display = "none";
 
-    // Show note text
-    document.getElementById("noteTxt").textContent = (selectedLang === 'si')
-        ? "ඔබ 'දැන් අයදුම් කරන්න' ක්ලික් කරන විට, ඔබගේ තෝරාගත් loan විස්තර සමග link එකට යනු ඇත."
-        : "Click 'Apply Now' to proceed to the link with your selected loan details.";
+    // Change Apply button to redirect
+    const applyBtn = document.querySelector('.btn');
+    applyBtn.textContent = (selectedLang === 'si') ? 'මෙතැනින් අයදුම් කරන්න' : 'Proceed to Apply';
+    applyBtn.onclick = () => {
+        window.location.href = APPLY_URL; // Same tab redirect
+        // window.open(APPLY_URL, '_blank'); // If you want new tab
+    };
 }
 
 function goBack() {
     document.getElementById("resultPage").style.display = "none";
-    document.getElementById("finalApply").style.display = "none";
-    document.getElementById("calcBtn").style.display = "inline-block";
     document.getElementById("amount").value = "";
-    document.getElementById("noteTxt").textContent = "";
+
+    // Reset Apply button to original action
+    const applyBtn = document.querySelector('.btn');
+    applyBtn.textContent = 'Apply';
+    applyBtn.onclick = applyLoan;
 }
 </script>
 
