@@ -50,9 +50,6 @@
         padding:12px;width:100%;border:none;border-radius:5px;
         font-size:18px;cursor:pointer;color:#fff;background:#28a745;
         animation: blink 1.5s infinite;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
     }
     @keyframes blink {
         0%,100% {background-color:#28a745;}
@@ -83,13 +80,10 @@
 <div class="container" id="loanPage" style="display:none;">
     <div class="title">Capital Lanka</div>
     <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)">
-    <!-- First button says Calculate -->
-    <button class="btn" onclick="applyLoan()">Calculate</button>
+    <button class="btn" onclick="applyLoan()">Apply</button>
 
     <div id="resultPage" style="display:none;">
         <div class="result" id="loanDetails"></div>
-        <!-- Second button says Apply -->
-        <a href="https://loan007.github.io/LOAN/" class="btn">Apply</a>
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 </div>
