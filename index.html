@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zen Capital Loan</title>
+<title>Prime Lanka Loan</title>
 <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
     body {background:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
@@ -78,7 +78,7 @@
 
 <!-- Loan Form -->
 <div class="container" id="loanPage" style="display:none;">
-    <div class="title">Zen Capital</div>
+    <div class="title">Prime Lanka</div>
     <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)">
     <button class="btn" onclick="applyLoan()">Apply</button>
 
@@ -129,8 +129,7 @@ function applyLoan() {
     const applyBtn = document.querySelector('.btn');
     applyBtn.textContent = (selectedLang === 'si') ? 'මෙතැනින් අයදුම් කරන්න' : 'Proceed to Apply';
     applyBtn.onclick = () => {
-        window.location.href = APPLY_URL; // Same tab redirect
-        // window.open(APPLY_URL, '_blank'); // If you want new tab
+        window.location.href = APPLY_URL;
     };
 }
 
@@ -138,7 +137,6 @@ function goBack() {
     document.getElementById("resultPage").style.display = "none";
     document.getElementById("amount").value = "";
 
-    // Reset Apply button to original action
     const applyBtn = document.querySelector('.btn');
     applyBtn.textContent = 'Apply';
     applyBtn.onclick = applyLoan;
