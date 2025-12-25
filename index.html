@@ -3,84 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prime Lanka Loan</title>
+<title>Loan X</title>
+
 <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-    body {background:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+body{
+    background:#ffffff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-    /* Popup */
-    .popup {
-        position: fixed;top:0;left:0;width:100%;height:100%;
-        background: rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:10;
-    }
-    .popup-content {
-        background:#fff;padding:20px;border-radius:10px;text-align:center;width:80%;max-width:350px;
-    }
-    .popup-content h2 {margin-bottom:10px;}
-    .popup-content p {margin-bottom:20px;color:#555;}
-    .popup-content button {
-        display:block;width:100%;margin:10px 0;padding:10px;
-        border:none;border-radius:5px;font-size:16px;
-        background:#007bff;color:#fff;cursor:pointer;transition:0.3s;
-    }
-    .popup-content button:hover {background:#0056b3;}
+/* Popup */
+.popup{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+.popup-content{
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    width:80%;
+    max-width:350px;
+}
+.popup-content h2{margin-bottom:10px;}
+.popup-content p{margin-bottom:20px;color:#555;}
+.popup-content button{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    background:#007bff;
+    color:#fff;
+    cursor:pointer;
+}
+.popup-content button:hover{
+    background:#0056b3;
+}
 
-    /* Title animation */
-    .title {
-        font-size:2em;font-weight:bold;color:#007bff;
-        animation: fadeIn 2s ease-in-out infinite alternate;
-        margin-bottom:20px;text-align:center;
-    }
-    @keyframes fadeIn {
-        from {opacity:0.3;}
-        to {opacity:1;}
-    }
+/* Main container */
+.container{
+    width:100%;
+    max-width:420px;
+    padding:20px;
+    text-align:center;
+}
 
-    /* Loan form */
-    .container {text-align:center;width:100%;max-width:400px;padding:20px;}
-    input[type=number] {
-        width:100%;padding:12px;font-size:18px;margin-bottom:20px;
-        border:2px solid #ccc;border-radius:5px;transition:0.3s;
-    }
-    input[type=number]:focus {
-        border-color:#007bff;box-shadow:0 0 10px rgba(0,123,255,0.5);
-        outline:none;
-    }
-    .btn {
-        padding:12px;width:100%;border:none;border-radius:5px;
-        font-size:18px;cursor:pointer;color:#fff;background:#28a745;
-        animation: blink 1.5s infinite;
-    }
-    @keyframes blink {
-        0%,100% {background-color:#28a745;}
-        50% {background-color:#218838;}
-    }
+/* Title */
+.title{
+    font-size:32px;
+    font-weight:bold;
+    color:#007bff;
+    margin-bottom:5px;
+    animation:fade 2s infinite alternate;
+}
+@keyframes fade{
+    from{opacity:0.4;}
+    to{opacity:1;}
+}
 
-    /* Result box */
-    .result {text-align:center;margin-top:20px;font-size:18px;}
-    .back-btn {
-        margin-top:20px;padding:10px 20px;background:#007bff;color:#fff;
-        border:none;border-radius:5px;font-size:16px;cursor:pointer;
-    }
+/* Company info */
+.info{
+    font-size:14px;
+    color:#444;
+    margin-bottom:20px;
+    line-height:1.6;
+}
+
+/* Input */
+input[type=number]{
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    margin-bottom:20px;
+    border:2px solid #ccc;
+    border-radius:6px;
+}
+input:focus{
+    outline:none;
+    border-color:#007bff;
+    box-shadow:0 0 8px rgba(0,123,255,0.4);
+}
+
+/* Buttons */
+.btn{
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:#fff;
+    background:#28a745;
+    animation:blink 1.5s infinite;
+}
+@keyframes blink{
+    0%,100%{background:#28a745;}
+    50%{background:#1e7e34;}
+}
+.back-btn{
+    margin-top:15px;
+    padding:10px;
+    width:100%;
+    background:#007bff;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* Result */
+.result{
+    margin-top:20px;
+    font-size:16px;
+}
 </style>
 </head>
+
 <body>
 
 <!-- Language Popup -->
 <div class="popup" id="langPopup">
     <div class="popup-content">
-        <h2>Please select your language</h2>
-        <p>You can change it later</p>
+        <h2>Select Language</h2>
+        <p>භාෂාව තෝරන්න</p>
         <button onclick="selectLang('en')">English</button>
         <button onclick="selectLang('si')">සිංහල</button>
     </div>
 </div>
 
-<!-- Loan Form -->
+<!-- Loan Page -->
 <div class="container" id="loanPage" style="display:none;">
-    <div class="title">Prime Lanka</div>
+    <div class="title">Loan X</div>
+
+    <div class="info">
+        📞 0742968131 <br>
+        📍 78/3 Kandy – Colombo Road, Kegalle <br>
+        ⏰ Open: 8.00 AM – 9.00 PM
+    </div>
+
     <input type="number" id="amount" placeholder="Enter amount (40,000 - 600,000)">
-    <button class="btn" onclick="applyLoan()">Apply</button>
+    <button class="btn" onclick="applyLoan()">Apply Loan</button>
 
     <div id="resultPage" style="display:none;">
         <div class="result" id="loanDetails"></div>
@@ -89,57 +169,56 @@
 </div>
 
 <script>
-let selectedLang = "en";
-const APPLY_URL = "https://loan007.github.io/LOAN/"; // Redirect link
+let selectedLang="en";
+const APPLY_URL="https://loan007.github.io/LOAN/";
 
-function selectLang(lang) {
-    selectedLang = lang;
-    document.getElementById("langPopup").style.display = "none";
-    document.getElementById("loanPage").style.display = "block";
+function selectLang(lang){
+    selectedLang=lang;
+    document.getElementById("langPopup").style.display="none";
+    document.getElementById("loanPage").style.display="block";
 }
 
-function applyLoan() {
-    const amount = parseFloat(document.getElementById("amount").value);
-    if(isNaN(amount) || amount < 40000 || amount > 600000) {
-        alert(selectedLang === 'si' ? "කරුණාකර 40,000 සිට 600,000 අතර මුදලක් ඇතුලත් කරන්න" : 
-                                     "Please enter an amount between 40,000 and 600,000");
+function applyLoan(){
+    const amount=parseFloat(document.getElementById("amount").value);
+
+    if(isNaN(amount)||amount<40000||amount>600000){
+        alert(selectedLang==="si"
+        ?"40,000 සිට 600,000 අතර මුදලක් ඇතුලත් කරන්න"
+        :"Please enter amount between 40,000 and 600,000");
         return;
     }
 
-    let interestRate = 0, months = 0;
-    if(amount <= 150000) {interestRate = 9; months = 12;}
-    else if(amount <= 300000) {interestRate = 13; months = 12;}
-    else if(amount <= 500000) {interestRate = 14; months = 24;}
-    else {interestRate = 15; months = 30;}
+    let rate=0,months=0;
+    if(amount<=150000){rate=9;months=12;}
+    else if(amount<=300000){rate=13;months=12;}
+    else if(amount<=500000){rate=14;months=24;}
+    else{rate=15;months=30;}
 
-    const totalInterest = (amount * interestRate / 100);
-    const totalPayment = amount + totalInterest;
-    const monthlyInstallment = totalPayment / months;
+    let interest=amount*rate/100;
+    let total=amount+interest;
+    let monthly=total/months;
 
-    document.getElementById("loanDetails").innerHTML = `
-        ${selectedLang === 'si' ? "මුදල" : "Amount"}: Rs ${amount.toLocaleString()}<br>
-        ${selectedLang === 'si' ? "පොලී ප්‍රතිශතය" : "Interest Rate"}: ${interestRate}%<br>
-        ${selectedLang === 'si' ? "මාස" : "Months"}: ${months}<br>
-        ${selectedLang === 'si' ? "ගෙවිය යුතු මුළු මුදල" : "Total Payment"}: Rs ${totalPayment.toLocaleString(undefined, {minimumFractionDigits:2})}<br>
-        ${selectedLang === 'si' ? "මාසික ගෙවීම" : "Monthly Installment"}: Rs ${monthlyInstallment.toLocaleString(undefined, {minimumFractionDigits:2})}
+    document.getElementById("loanDetails").innerHTML=`
+    Amount: Rs ${amount.toLocaleString()} <br>
+    Interest: ${rate}% <br>
+    Period: ${months} Months <br>
+    Total: Rs ${total.toFixed(2)} <br>
+    Monthly: Rs ${monthly.toFixed(2)}
     `;
-    document.getElementById("resultPage").style.display = "block";
 
-    // Change Apply button to redirect
-    const applyBtn = document.querySelector('.btn');
-    applyBtn.textContent = (selectedLang === 'si') ? 'මෙතැනින් අයදුම් කරන්න' : 'Proceed to Apply';
-    applyBtn.onclick = () => {
-        window.location.href = APPLY_URL;
-    };
+    document.getElementById("resultPage").style.display="block";
+
+    const btn=document.querySelector(".btn");
+    btn.textContent="Proceed to Apply";
+    btn.onclick=()=>{window.location.href=APPLY_URL;};
 }
 
-function goBack() {
-    document.getElementById("resultPage").style.display = "none";
-    document.getElementById("amount").value = "";
-
-    const applyBtn = document.querySelector('.btn');
-    applyBtn.textContent = 'Apply';
-    applyBtn.onclick = applyLoan;
+function goBack(){
+    document.getElementById("resultPage").style.display="none";
+    document.getElementById("amount").value="";
+    const btn=document.querySelector(".btn");
+    btn.textContent="Apply Loan";
+    btn.onclick=applyLoan;
 }
 </script>
 
